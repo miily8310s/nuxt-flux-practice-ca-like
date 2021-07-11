@@ -1,4 +1,12 @@
-const formData = {
+import { FormData } from '@/domain/models/forms/formData';
+
+// TODO: 定義場所の再考
+interface FormMockData {
+  message: 'ok' | 'ng';
+  data: FormData;
+}
+
+const formData: FormMockData = {
   message: 'ok',
   data: {
     personal: {
