@@ -1,6 +1,10 @@
+const deploymentEnv = process.env.NUXT_ENV_DEPLOYMENT || 'development';
+const environment = require(`./.env.${deploymentEnv}.js`);
+
 export default {
   // Disable server-side rendering: https://go.nuxtjs.dev/ssr-mode
   ssr: false,
+  env: environment,
 
   // Target: https://go.nuxtjs.dev/config-target
   target: 'static',
@@ -9,26 +13,22 @@ export default {
   head: {
     title: 'nuxt-flux',
     htmlAttrs: {
-      lang: 'en'
+      lang: 'en',
     },
     meta: [
       { charset: 'utf-8' },
       { name: 'viewport', content: 'width=device-width, initial-scale=1' },
       { hid: 'description', name: 'description', content: '' },
-      { name: 'format-detection', content: 'telephone=no' }
+      { name: 'format-detection', content: 'telephone=no' },
     ],
-    link: [
-      { rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }
-    ]
+    link: [{ rel: 'icon', type: 'image/x-icon', href: '/favicon.ico' }],
   },
 
   // Global CSS: https://go.nuxtjs.dev/config-css
-  css: [
-  ],
+  css: [],
 
   // Plugins to run before rendering page: https://go.nuxtjs.dev/config-plugins
-  plugins: [
-  ],
+  plugins: [],
 
   // Auto import components: https://go.nuxtjs.dev/config-components
   components: true,
@@ -43,12 +43,15 @@ export default {
   modules: [
     // https://go.nuxtjs.dev/axios
     '@nuxtjs/axios',
+    '@nuxtjs/proxy',
   ],
 
   // Axios module configuration: https://go.nuxtjs.dev/config-axios
-  axios: {},
+  axios: { proxy: true },
+  proxy: {
+    '/api': `${environment.API_URL}`,
+  },
 
   // Build Configuration: https://go.nuxtjs.dev/config-build
-  build: {
-  }
-}
+  build: {},
+};

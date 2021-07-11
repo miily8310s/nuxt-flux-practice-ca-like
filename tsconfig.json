@@ -10,12 +10,19 @@
     "strict": true,
     "noEmit": true,
     "experimentalDecorators": true,
+    "suppressImplicitAnyIndexErrors": true,
     "baseUrl": ".",
     "paths": {
       "~/*": ["./*"],
       "@/*": ["./*"]
     },
-    "types": ["@nuxt/types", "@nuxtjs/axios", "@types/node"]
+    "types": [
+      "@nuxt/types",
+      "@nuxtjs/axios",
+      "@types/node",
+      "@types/lodash",
+      "@types/jest"
+    ]
   },
   "exclude": ["node_modules", ".nuxt", "dist"]
 }
