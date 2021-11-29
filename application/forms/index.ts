@@ -9,6 +9,6 @@ class FormUseCase {
   }
 }
 
-const formData = new FormUseCase();
+const formUseCase = new FormUseCase();
 
-export default formData;
+export default formUseCase;

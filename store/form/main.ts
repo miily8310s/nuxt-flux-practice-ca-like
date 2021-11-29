@@ -1,12 +1,12 @@
-import formData from '@/application/forms';
-import { FormType } from '@/domain/models/forms/vo';
-import { FormDataStore } from '@/store/form/type';
 import { cloneDeep } from 'lodash';
 import {
   DefineActions,
   DefineGetters,
   DefineMutations,
 } from 'vuex-type-helper';
+import formUseCase from '@/application/forms';
+import { FormType } from '@/domain/models/forms/vo';
+import { FormDataStore } from '@/store/form/type';
 
 type Getters = DefineGetters<FormDataStore['getters'], FormDataStore['state']>;
 type Mutations = DefineMutations<
@@ -64,7 +64,7 @@ export const mutations: Mutations = {
 
 export const actions: Actions = {
   async fetchFormData({ commit }) {
-    const data = await formData.findAll();
+    const data = await formUseCase.findAll();
     commit('mutateFormData', { formData: data });
   },
   setFormData({ commit }, storeFormData) {

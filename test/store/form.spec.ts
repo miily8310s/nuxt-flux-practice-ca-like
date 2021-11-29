@@ -1,42 +1,74 @@
-import { FormData } from '@/domain/models/forms/formData';
-import { EditedType } from '@/domain/models/forms/vo';
-import FromMockData from '@/infrastructure/mock/data/forms';
-import * as form from '@/store/form/index';
 import { createLocalVue } from '@vue/test-utils';
 import { cloneDeep } from 'lodash';
 import Vuex, { Store } from 'vuex';
+import { EditedType } from '@/domain/models/forms/vo';
+import mockData from '@/infrastructure/mock/data/forms';
+import * as target from '@/store/form/index';
+import { objectKeysToCamel } from '@/utils/changeCase';
 
-// vuexを使う準備
-const localVue = createLocalVue();
-localVue.use(Vuex);
+const mock: typeof mockData = objectKeysToCamel(mockData);
+
+jest.mock('@/application/forms', () => ({
+  findAll: () => mock,
+}));
 
 describe('store/form/index', () => {
+  // vuexを使う準備
+  const localVue = createLocalVue();
+  localVue.use(Vuex);
   let store: Store<any>;
-  const formMockData: FormData = FromMockData.data;
 
-  // itが呼ばれる前のタイミングで毎回初期化をする
   beforeEach(() => {
-    store = new Vuex.Store(cloneDeep(form));
+    store = new Store(cloneDeep(target));
   });
 
-  describe('getters', () => {
-    test('formDataのgettersが正しい値か', () => {
-      // 初期値はundefined
-      expect(store.getters.formData).toBe(undefined);
-      store.commit('mutateFormData', { formData: formMockData });
-      expect(store.getters.formData).toEqual(formMockData);
+  describe('gettersのテスト', () => {
+    beforeEach(() => {
+      store.commit('mutateFormData', { formData: mock });
     });
 
-    test('personalのageが正しい値か', () => {
-      store.commit('mutateFormData', { formData: formMockData });
-      expect(store.getters.formData.personal.age).toBe(22);
+    test('formData: fetchした値通りか', () => {
+      expect(store.getters.formData).toEqual(mock);
     });
+
+    test('_formData: fetchした値通りか', () => {
+      expect(store.getters._formData).toEqual(mock);
+    });
+  });
+
+  describe('mutationsのテスト', () => {
+    test('mutateFormData: fetchDataをformDataと_formDataに保存する', () => {
+      store.commit('mutateFormData', { formData: mock });
+      expect(store.state.formData).toEqual(mock);
+      expect(store.state._formData).toEqual(mock);
+    });
+
+    // TODO: 実装
+    // const testData = [
+    //   {
+    //     formType: 'personal',
+    //     title: 'title1',
+    //     value: 'value1',
+    //   },
+    //   {
+    //     formType: 'survey',
+    //     title: 1111,
+    //     value: 2222,
+    //   },
+    // ]
+
+    // test.each(testData)(
+    //   'setFormData: formTypeに一致する値を保存する',
+    //   (testData) => {
+    //     store.commit('setFormData', { ...testData });
+    //     expect(store.state.formData.personal).toEqual(testData);
+    //     expect(store.state.formData.survey).toEqual(mock.data.survey);
+    //   },
+    // );
   });
 
   describe('actions', () => {
     test('setTypeがコミットされると、正しい値がセットされる', () => {
-      // 初期値はnull
-      expect(store.getters.editedType).toBe(null);
       const editedType: EditedType = 'personal';
       store.dispatch('setType', { editedType });
       expect(store.getters.editedType).toBe('personal');
