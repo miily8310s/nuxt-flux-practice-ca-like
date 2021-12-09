@@ -65,7 +65,7 @@ class MockClient implements IClient {
     }
 
     if (matchedId) {
-      const id = matchedId ? Number(matchedId[0]) : 0;
+      const id = Number(matchedId[0]);
       const obj = target[0].value.data.find((item: any) => item.id === id);
       return wrapPromise({ data: obj });
     }
