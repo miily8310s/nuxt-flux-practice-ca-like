@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <div v-for="(item, i) in formData.items" :key="i">
+    <div v-for="(item, i) in formData.items" :key="item">
       {{ item.title }}:
       <input
         :value="formData[item.title]"
@@ -55,7 +55,7 @@ export default class BaseForm extends Vue {
   setFormData!: (setFormData: {
     formType: FormType;
     title: FormTitle;
-    value: string | number;
+    value: string;
   }) => void;
 
   get isEdit() {

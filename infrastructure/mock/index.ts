@@ -1,4 +1,5 @@
-const express = require('express');
+import express from 'express';
+// TODO: @types/corsインストールする
 const cors = require('cors');
 
 const server = express();

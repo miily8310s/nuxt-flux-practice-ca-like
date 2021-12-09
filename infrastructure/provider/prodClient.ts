@@ -1,6 +1,6 @@
+import { AxiosRequestConfig } from 'axios';
 import axiosBase from '@/infrastructure/provider/axiosBase';
 import IClient from '@/infrastructure/provider/IClient';
-import { AxiosRequestConfig } from 'axios';
 
 export class ProdClient implements IClient {
   post(url: string, data: any, config?: AxiosRequestConfig): Promise<any> {

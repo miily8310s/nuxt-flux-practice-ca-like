@@ -29,7 +29,7 @@ type Mutations = {
   setFormData: {
     formType: FormType;
     title: FormTitle;
-    value: string | number;
+    value: string;
   };
   cancelFormData: {};
   setType: {
@@ -42,7 +42,7 @@ type Actions = {
   setFormData: {
     formType: FormType;
     title: FormTitle;
-    value: string | number;
+    value: string;
   };
   cancelFormData: {};
   postFormData: {};

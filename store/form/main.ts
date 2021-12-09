@@ -35,7 +35,7 @@ export const getters: Getters = {
   surveyData: (state) => state.formData!.survey,
   editedType: (state) => state.editedType!,
   formAction: () => (formType: FormType) => {
-    if (formType === 'personal' || formType === 'survey') {
+    if (['personal', 'survey'].includes(formType)) {
       return 'form/postFormData';
     }
   },

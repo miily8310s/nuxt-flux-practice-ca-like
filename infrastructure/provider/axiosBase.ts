@@ -1,5 +1,5 @@
-import { objectKeysToCamel, objectKeysToKebab } from '@/utils/changeCase';
 import axios, { AxiosRequestConfig, AxiosResponse } from 'axios';
+import { objectKeysToCamel, objectKeysToKebab } from '@/utils/changeCase';
 
 const client = axios.create({
   // ブラウザのSessionCookieなどをaxiosでそのままサーバーに送信する

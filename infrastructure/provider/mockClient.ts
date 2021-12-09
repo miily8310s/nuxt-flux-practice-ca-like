@@ -1,8 +1,8 @@
+import { AxiosRequestConfig } from 'axios';
 import { FORMS } from '@/infrastructure/Path';
 import axiosBase from '@/infrastructure/provider/axiosBase';
 import IClient from '@/infrastructure/provider/IClient';
 import { objectKeysToCamel } from '@/utils/changeCase';
-import { AxiosRequestConfig } from 'axios';
 
 const result = (data: any) => ({ data });
 
@@ -20,6 +20,10 @@ const mockPaths = [
   },
 ];
 
+const getTarget = (path: string | undefined) => {
+  return mockPaths.filter((item) => item.path === path);
+};
+
 class MockClient implements IClient {
   /**
    * post
@@ -27,7 +31,7 @@ class MockClient implements IClient {
   post(path: string, data?: any, config?: AxiosRequestConfig): Promise<any> {
     const lastPath = path.split('/').pop();
 
-    const target = mockPaths.filter((item) => item.path === lastPath);
+    const target = getTarget(lastPath);
 
     if (target.length !== 0) {
       return wrapPromise(target[0].value);
@@ -39,7 +43,7 @@ class MockClient implements IClient {
   // TODO: 整備
   put(path: string, data: any, config?: AxiosRequestConfig): Promise<any> {
     const lastPath = path.split('/').pop();
-    const target = mockPaths.filter((item) => item.path === lastPath);
+    const target = getTarget(lastPath);
 
     if (target.length !== 0) {
       return wrapPromise(target[0].value);
@@ -54,24 +58,24 @@ class MockClient implements IClient {
     const lastPath = matchedId
       ? path.split('/').splice(2, 1)[0]
       : path.split('/').pop();
-    const target = mockPaths.filter((item) => item.path === lastPath);
+    const target = getTarget(lastPath);
 
-    if (target.length !== 0) {
-      if (matchedId) {
-        const id = matchedId ? Number(matchedId[0]) : 0;
-        const obj = target[0].value.data.find((item: any) => item.id === id);
-        return wrapPromise({ data: obj });
-      }
-      return wrapPromise(target[0].value);
+    if (target.length === 0) {
+      return axiosBase.get(path, config);
     }
 
-    return axiosBase.get(path, config);
+    if (matchedId) {
+      const id = matchedId ? Number(matchedId[0]) : 0;
+      const obj = target[0].value.data.find((item: any) => item.id === id);
+      return wrapPromise({ data: obj });
+    }
+    return wrapPromise(target[0].value);
   }
 
   // TODO: 整備
   delete(path: string, config?: AxiosRequestConfig): Promise<any> {
     const lastPath = path.split('/').pop();
-    const target = mockPaths.filter((item) => item.path === lastPath);
+    const target = getTarget(lastPath);
 
     if (target.length !== 0) {
       return wrapPromise(target[0].value);
@@ -81,6 +85,4 @@ class MockClient implements IClient {
   }
 }
 
-const mockClient = new MockClient();
-
-export default mockClient;
+export const mockClient = new MockClient();

@@ -1,5 +1,5 @@
 <template>
-  <div v-if="initlized">
+  <div v-if="initialized">
     <PersonalForm :form-data="personalData" />
     <SurveyForm :form-data="surveyData" />
     <DisplayFormData />
@@ -44,7 +44,7 @@ export default class Index extends Vue {
    */
   personalData!: PersonalData;
   surveyData!: SurveyData;
-  initlized = false;
+  initialized = false;
   fetchFormData!: () => Promise<void>;
 
   async init() {
@@ -53,7 +53,7 @@ export default class Index extends Vue {
 
   async created() {
     await this.init();
-    this.initlized = true;
+    this.initialized = true;
   }
 }
 </script>

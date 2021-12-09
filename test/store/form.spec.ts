@@ -3,7 +3,7 @@ import { cloneDeep } from 'lodash';
 import Vuex, { Store } from 'vuex';
 import { EditedType } from '@/domain/models/forms/vo';
 import mockData from '@/infrastructure/mock/data/forms';
-import * as target from '@/store/form/index';
+import * as target from '@/store/form/main';
 import { objectKeysToCamel } from '@/utils/changeCase';
 
 const mock: typeof mockData = objectKeysToCamel(mockData);

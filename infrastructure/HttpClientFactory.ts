@@ -1,15 +1,10 @@
 import { prodClient } from '@/infrastructure/provider/prodClient';
+import { mockClient } from '@/infrastructure/provider/mockClient';
 
 class HttpClientFactory {
   getClient() {
-    if (process.env.NUXT_ENV_DEPLOYMENT === 'production') {
-      return prodClient;
-    }
-    if (process.env.NUXT_ENV_DEPLOYMENT === 'development') {
-      return prodClient;
-    }
     if (process.env.NUXT_ENV_DEPLOYMENT === 'local') {
-      return require('@/infrastructure/provider/mockClient').default;
+      return mockClient;
     }
     return prodClient;
   }

@@ -9,7 +9,7 @@ import { Component, Vue, Emit } from 'vue-property-decorator';
 
 @Component
 export default class SaveButton extends Vue {
-  // sotreに依存しないように、emitするだけ
+  // storeに依存しないように、emitするだけ
   // 値を逆流させるのはよくないが、eventだけを上に渡すのはOK
   @Emit()
   private onSave() {}
