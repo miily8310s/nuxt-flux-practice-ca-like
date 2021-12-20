@@ -1,6 +1,6 @@
 <template>
   <div class="form">
-    <div v-for="(item, i) in formData.items" :key="item">
+    <div v-for="item in formData.items" :key="item">
       {{ item.title }}:
       <input
         :value="formData[item.title]"
@@ -62,7 +62,7 @@ export default class BaseForm extends Vue {
     return this.editedType === this.formType;
   }
 
-  onChange(formType: FormType, title: FormTitle, value: string | number) {
+  onChange(formType: FormType, title: FormTitle, value: string) {
     this.setFormData({ formType, title, value });
   }
 }

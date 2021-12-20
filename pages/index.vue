@@ -37,7 +37,7 @@ export default class Index extends Vue {
    * 仕様
    * formの初期表示はDBから取得した値を表示
    * formの値を変更するとstoreのformDataも追従される
-   * cansel時は元の値に戻りdisabledになる
+   * cancel時は元の値に戻りdisabledになる
    * 編集状態は常に1つだけ
    * save時はstoreのformDataの状態が永続化され、disabledになる
    * saveされるdataはリアクティブで下へ表示される
